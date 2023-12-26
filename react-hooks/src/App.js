@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useInput } from './useInput';
 
 const content = [
@@ -34,6 +34,11 @@ const App = () => {
   const name = useInput("Mr.", maxLen, notAcess);
   //useTaps()
   const {currentItem , changeItem } = useTabs(0, content);
+  //useEffect()
+  const sayHello = () => console.log("hello");
+  const [number, setNumber] = useState(0);
+  const [aNumber, setAnumber] = useState(0);
+  useEffect(sayHello, []);
   return (
     <div className="App">
       <h1>Hello {item}</h1>
@@ -52,6 +57,9 @@ const App = () => {
         {currentItem.content}
       </div>  
       <hr></hr>
+      <div>Hi</div>
+      <button onClick={() => setNumber(number + 1)}>{number}</button>
+      <button onClick={() => setAnumber(aNumber + 1)}>{aNumber}</button>
     </div>
   );
 }

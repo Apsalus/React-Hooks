@@ -23,6 +23,16 @@ const useTabs = (initialTab, allTabs) => {
   };
 };
 
+const useTitle = (initialTitle) => {
+  const [title, setTitle] = useState(initialTitle)
+  const updateTitle =  () => {
+    const htmlTitle = document.querySelector("title");
+    htmlTitle.innerText = title;
+  };
+  useEffect(updateTitle, [title]);
+  return setTitle;
+}
+
 const App = () => {
   //useState()
   const [item, setItem] = useState(1);
@@ -39,14 +49,20 @@ const App = () => {
   const [number, setNumber] = useState(0);
   const [aNumber, setAnumber] = useState(0);
   useEffect(sayHello, []);
+  //useTitle()
+  const titleUpdater = useTitle("Loadding...");
+  setTimeout(() => titleUpdater("Home"), 5000);
   return (
     <div className="App">
-      <h1>Hello {item}</h1>
+      <h1>useState()</h1>
+      <h2>Hello {item}</h2>
       <button onClick={incrementItem}> Increment</button>
       <button onClick={decrementItem}> Decrement</button>
       <hr></hr>
+      <h1>useInput()</h1>
       <input placeholder="Name" {...name} />
       <hr></hr>
+      <h1>useTaps()</h1>
       <div>
         {content.map((section, index) => (
           <button onClick={()=>changeItem(index)}>{section.tab}</button>
@@ -57,9 +73,12 @@ const App = () => {
         {currentItem.content}
       </div>  
       <hr></hr>
-      <div>Hi</div>
+      <h1>useEffect()</h1>
       <button onClick={() => setNumber(number + 1)}>{number}</button>
       <button onClick={() => setAnumber(aNumber + 1)}>{aNumber}</button>
+      <hr></hr>
+      
+    
     </div>
   );
 }

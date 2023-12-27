@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useRef } from 'react';
 import { useInput } from './useInput';
 
 const content = [
@@ -33,6 +33,22 @@ const useTitle = (initialTitle) => {
   return setTitle;
 }
 
+const useClick = (onClick) => {
+  const ref = useRef();
+  useEffect(() => {
+    const element = ref.current;
+    if(element) {
+      element.addEventListener("click", onClick);
+    }
+    return () =>  {
+      if(element){
+        element.removeEventListener("click", onClick);
+      }
+    };
+  }, [onClick]);
+  return ref.current;
+}
+
 const App = () => {
   //useState()
   const [item, setItem] = useState(1);
@@ -52,6 +68,9 @@ const App = () => {
   //useTitle()
   const titleUpdater = useTitle("Loadding...");
   setTimeout(() => titleUpdater("Home"), 5000);
+  //useClick()
+  const sayHi = () => console.log("say hi");
+  const title = useClick(sayHi);
   return (
     <div className="App">
       <h1>useState()</h1>
@@ -77,8 +96,8 @@ const App = () => {
       <button onClick={() => setNumber(number + 1)}>{number}</button>
       <button onClick={() => setAnumber(aNumber + 1)}>{aNumber}</button>
       <hr></hr>
-      
-    
+      <h1>useClick</h1>
+      <h2 ref={title}>Hi</h2>
     </div>
   );
 }
